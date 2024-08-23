@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+* {
+  background-color: #1e1f25;
+  color: white;
+  box-sizing: border-box;
+  margin: 0px;
+  font-family: 'Inter', sans-serif;
+}
+
+.app {
+  display: flex;
+  padding: 30px;
+  justify-content: center;
+}
+
+.app button {
+  position: absolute;
+  top: 30pt;
+  right: 30px;
+  color: white;
+  border-color: white;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.todo-list {
+  padding: 30px;
+  width: 100%;
+}
+
+.item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.item input[type='checkbox'] {
+  cursor: pointer;
+  accent-color: white;
+}
+
+.item input[type='text'] {
+  width: 100%;
+  margin: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.item input[type='text']:focus {
+  outline: none;
+  border-bottom: 1px solid white;
+}
+
+.actions {
+  display: flex;
+  justify-content: end;
+  margin: 0px -30px;
+}
+
+.material-icons {
+  border: none;
+  cursor: pointer;
+}
+
+.complete input[type='text'] {
+  text-decoration: line-through;
+}
