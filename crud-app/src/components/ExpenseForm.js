@@ -1,8 +1,13 @@
 import React from 'react';
 
-const ExpenseForm = () => {
-  const handleSubmit = () => console.log('submit');
-
+const ExpenseForm = ({
+  charge,
+  amount,
+  isEditing,
+  handleCharge,
+  handleAmount,
+  handleSubmit,
+}) => {
   return (
     <form onSubmit={handleSubmit}>
       <div>
@@ -13,6 +18,8 @@ const ExpenseForm = () => {
             id="charge"
             name="charge"
             placeholder="예) 렌트비"
+            value={charge}
+            onChange={handleCharge}
           ></input>
         </div>
         <div>
@@ -22,10 +29,12 @@ const ExpenseForm = () => {
             id="amount"
             name="amount"
             placeholder="예) 100"
+            value={amount}
+            onChange={handleAmount}
           ></input>
         </div>
       </div>
-      <button type="submit">제출</button>
+      <button type="submit">{isEditing ? '수정' : '제출'}</button>
     </form>
   );
 };
