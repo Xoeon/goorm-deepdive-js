@@ -21,16 +21,15 @@ const MainPage = () => {
         />
       </nav>
       <section className="grid grid-cols-2 gap-5">
-        {data?.length > 0 &&
-          data
-            .filter((product) =>
-              selectedCategory === 'all clothing'
-                ? true
-                : product.category === selectedCategory
-            )
-            .map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+        {data
+          ?.filter((product) =>
+            selectedCategory === 'all clothing'
+              ? true
+              : product.category === selectedCategory
+          )
+          ?.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
       </section>
     </>
   );
