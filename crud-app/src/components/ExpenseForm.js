@@ -9,20 +9,27 @@ const ExpenseForm = ({
   handleSubmit,
 }) => {
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <div>
+    <form className="expense-form" onSubmit={handleSubmit}>
+      <div
+        style={{
+          width: '100%',
+          display: 'flex',
+          gap: '15px',
+          marginBottom: '10px',
+        }}
+      >
+        <div className="basic-form">
           <label htmlFor="charge">지출 항목</label>
           <input
             type="text"
             id="charge"
             name="charge"
-            placeholder="예) 렌트비"
+            placeholder="e.g. 렌트비"
             value={charge}
             onChange={handleCharge}
           ></input>
         </div>
-        <div>
+        <div className="basic-form">
           <label htmlFor="charge">비용</label>
           <input
             type="number"
@@ -34,7 +41,11 @@ const ExpenseForm = ({
           ></input>
         </div>
       </div>
-      <button type="submit">{isEditing ? '수정' : '제출'}</button>
+      <div style={{ display: 'flex', justifyContent: 'end' }}>
+        <button type="submit" style={{ cursor: 'pointer' }}>
+          {isEditing ? '수정' : '제출'}
+        </button>
+      </div>
     </form>
   );
 };

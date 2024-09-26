@@ -63,10 +63,11 @@ function App() {
   };
 
   return (
-    <main className="main-container">
-      <h1 style={{ width: '100%', textAlign: 'center' }}>예산 계산기</h1>
-
-      <div className="expense-form">
+    <>
+      <header style={{ width: '100%', textAlign: 'center', color: 'white' }}>
+        <h1>예산 계산기</h1>
+      </header>
+      <main className="main-container">
         <ExpenseForm
           charge={charge}
           amount={amount}
@@ -75,25 +76,25 @@ function App() {
           handleAmount={handleAmount}
           handleSubmit={handleSubmit}
         />
-      </div>
 
-      <div className="expense-list">
         <ExpenseList
           expenses={expenses}
           handleEdit={handleEdit}
           handleDelete={handleDelete}
         />
-      </div>
-
-      <div className="total-amount">
-        <p>
-          총 지출:
+      </main>
+      <div
+        className="total-amount"
+        style={{ display: 'flex', justifyContent: 'end', color: 'white' }}
+      >
+        <p style={{ fontSize: '16px', fontWeight: 600 }}>
+          총 지출:{' '}
           <span>
             {expenses.reduce((acc, curr) => (acc += curr.amount), 0)}원
           </span>
         </p>
       </div>
-    </main>
+    </>
   );
 }
 

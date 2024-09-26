@@ -4,7 +4,15 @@ import ExpenseItem from './ExpenseItem';
 const ExpenseList = ({ expenses, handleEdit, handleDelete }) => {
   return (
     <>
-      <ul className="list">
+      <ul
+        className="list"
+        style={{
+          padding: 0,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '10px',
+        }}
+      >
         {expenses.map((expense) => {
           return (
             <ExpenseItem
@@ -16,7 +24,9 @@ const ExpenseList = ({ expenses, handleEdit, handleDelete }) => {
           );
         })}
       </ul>
-      <button>목록 지우기</button>
+      <div style={{ display: 'flex', justifyContent: 'end' }}>
+        <button style={{ cursor: 'pointer' }}>목록 지우기</button>
+      </div>
     </>
   );
 };
