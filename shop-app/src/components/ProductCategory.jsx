@@ -9,7 +9,7 @@ const categories =
 
 const ProductCategory = ({ selectedCategory, handleCategory }) => {
   return (
-    <div className="flex flex-row py-3 justify-evenly bg-white">
+    <div className="flex flex-row py-3 justify-evenly">
       {categories &&
         categories.map((category) => {
           const isSelected = selectedCategory === category.value;

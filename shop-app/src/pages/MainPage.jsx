@@ -3,24 +3,20 @@ import ProductCard from '../components/ProductCard';
 import ProductCategory from '../components/ProductCategory';
 import fetchProducts from '../apis/fetchProducts';
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const MainPage = () => {
   const { data, error, isLoading } = useQuery('products', fetchProducts);
   const [selectedCategory, setSelectedCategory] = useState('all clothing');
-  const [isSticky, setIsSticky] = useState(false);
+
+  const location = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      setIsSticky(scrollPosition > 48);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
+    if (location.state?.showToast) {
+      toast('이미 로그인하셨습니다.');
+    }
+  }, [location]);
 
   const handleCategory = (category) => {
     setSelectedCategory(category.value);
@@ -28,11 +24,7 @@ const MainPage = () => {
 
   return (
     <>
-      <nav
-        className={`sticky top-[48px] bg-white ${
-          isSticky && 'border-b border-gray-300'
-        }`}
-      >
+      <nav>
         <ProductCategory
           selectedCategory={selectedCategory}
           handleCategory={handleCategory}
