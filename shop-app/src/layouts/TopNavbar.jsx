@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 
 const TopNavbar = () => {
   return (
-    <header className="flex p-4 justify-between items-center border-b-[1px] border-gray drop-shadow-sm">
+    <header className="flex sticky top-0 p-3 bg-white justify-between items-center">
       <NavLink to="/">
         <img
           className="w-16 cursor-pointer"
