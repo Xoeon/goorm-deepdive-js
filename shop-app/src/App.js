@@ -1,8 +1,9 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
-import Router from './routes/Router';
+import { Toaster } from 'react-hot-toast';
 import { Provider } from 'react-redux';
+import Router from './routes/Router';
 import store from './store';
-import { BottomSheet } from 'react-spring-bottom-sheet';
+import 'react-spring-bottom-sheet/dist/style.css';
 
 function App() {
   const queryClient = new QueryClient();
@@ -11,8 +12,8 @@ function App() {
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
         <Router />
+        <Toaster />
       </QueryClientProvider>
-      <BottomSheet>hey</BottomSheet>
     </Provider>
   );
 }

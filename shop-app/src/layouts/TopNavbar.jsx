@@ -1,8 +1,6 @@
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const TopNavbar = () => {
-  const navigate = useNavigate();
-
   return (
     <header className="flex p-4 justify-between items-center border-b-[1px] border-gray drop-shadow-sm">
       <NavLink to="/">
@@ -14,7 +12,7 @@ const TopNavbar = () => {
         />
       </NavLink>
       <div className="flex">
-        <NavLink>
+        <NavLink to="/cart">
           <img className="w-6 cursor-pointer" src={'/cart2.svg'} alt="cart" />
         </NavLink>
         <NavLink>
