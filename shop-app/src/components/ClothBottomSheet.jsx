@@ -27,7 +27,7 @@ const ClothBottomSheet = () => {
       })
     );
 
-    toast.success(' 담겼습니다!', {
+    toast.success('장바구니에 담았습니다!', {
       position: 'top-center',
       autoClose: 1500,
     });

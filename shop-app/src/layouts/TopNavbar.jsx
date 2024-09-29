@@ -11,7 +11,6 @@ const TopNavbar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   const { currentUser } = useAuth();
-  const userId = auth.currentUser?.uid;
 
   const cartItems = useSelector((state) => state.cart.items);
 
@@ -54,7 +53,7 @@ const TopNavbar = () => {
         <button className="relative" onClick={handleCartClick}>
           <img className="w-6 cursor-pointer" src={'/cart.svg'} alt="cart" />
           {itemCount > 0 && currentUser && (
-            <span className="absolute top-[-5px] right-[-7px] bg-red-500 text-white text-[8px] rounded-full h-3 w-3 flex items-center justify-center">
+            <span className="absolute top-[-5px] right-[-7px] bg-gray-600 text-white text-[8px] rounded-full h-3 w-3 flex items-center justify-center">
               {itemCount}
             </span>
           )}
