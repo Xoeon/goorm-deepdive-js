@@ -3,18 +3,21 @@ import { setSelectedCloth } from '../clothSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { addItemToCart } from '../cartSlice';
 import toast from 'react-hot-toast';
+import { auth } from '../firebase';
 
 const ClothBottomSheet = () => {
+  const dispatch = useDispatch();
+  const userId = auth.currentUser?.uid;
   const selectedCloth = useSelector(
     (state) => state.selectedCloth.selectedCloth
   );
-  const dispatch = useDispatch();
 
   const { title, price, image, description, category } = selectedCloth ?? {};
 
-  const addToCart = () => {
+  const handleAddToCart = () => {
     dispatch(
       addItemToCart({
+        userId,
         id: selectedCloth.id,
         title: selectedCloth.title,
         image: selectedCloth.image,
@@ -24,7 +27,7 @@ const ClothBottomSheet = () => {
       })
     );
 
-    toast.success('장바구니에 담겼습니다!', {
+    toast.success(' 담겼습니다!', {
       position: 'top-center',
       autoClose: 1500,
     });
@@ -45,7 +48,7 @@ const ClothBottomSheet = () => {
         <p className="text-gray-500 leading-6 mb-5">{description}</p>
         <button
           className="w-full outline-none border-black border p-3 bg-black text-white"
-          onClick={addToCart}
+          onClick={handleAddToCart}
         >
           장바구니
         </button>

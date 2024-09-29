@@ -5,12 +5,24 @@ import fetchProducts from '../apis/fetchProducts';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { auth } from '../firebase';
+import { useDispatch } from 'react-redux';
+import { initializeCart } from '../cartSlice';
 
 const MainPage = () => {
   const { data, error, isLoading } = useQuery('products', fetchProducts);
   const [selectedCategory, setSelectedCategory] = useState('all clothing');
 
+  const userId = auth.currentUser?.uid;
+  const dispatch = useDispatch();
+
   const location = useLocation();
+
+  useEffect(() => {
+    if (userId) {
+      dispatch(initializeCart({ userId }));
+    }
+  }, [dispatch, userId]);
 
   useEffect(() => {
     if (location.state?.showToast) {

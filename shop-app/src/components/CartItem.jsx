@@ -2,24 +2,27 @@ import { useDispatch } from 'react-redux';
 import { updateItemQuantity, removeItemFromCart } from '../cartSlice';
 import { useSwipeable } from 'react-swipeable';
 import { useSpring, animated } from '@react-spring/web';
+import { auth } from '../firebase';
 
 const CartItem = ({ item }) => {
   const [style, api] = useSpring(() => ({ x: 0, opacity: 1 }));
-
   const dispatch = useDispatch();
+  const userId = auth.currentUser?.uid;
 
   const handleIncreaseQuantity = (id, currentQuantity) => {
-    dispatch(updateItemQuantity({ id, quantity: currentQuantity + 1 }));
+    dispatch(updateItemQuantity({ userId, id, quantity: currentQuantity + 1 }));
   };
 
   const handleDecreaseQuantity = (id, currentQuantity) => {
     if (currentQuantity > 1) {
-      dispatch(updateItemQuantity({ id, quantity: currentQuantity - 1 }));
+      dispatch(
+        updateItemQuantity({ userId, id, quantity: currentQuantity - 1 })
+      );
     }
   };
 
   const handleRemoveItem = (id) => {
-    dispatch(removeItemFromCart(id));
+    dispatch(removeItemFromCart({ userId, id }));
   };
 
   const swipeHandlers = useSwipeable({
