@@ -1,103 +1,95 @@
-import chroma from 'chroma-js'
-import Select from 'react-select'
+import { useEffect } from 'react'
+import CreatableSelect from 'react-select/creatable'
+import getLocalStorage from '../utils/getLocalStorage'
+import setLocalStorage from '../utils/setLocalStorage'
 
-export const colourOptions = [
-  { value: 'ocean', label: 'Ocean', color: '#00B8D9', isFixed: true },
-  { value: 'purple', label: 'Purple', color: '#5243AA' },
-  { value: 'red', label: 'Red', color: '#FF5630', isFixed: true },
-  { value: 'orange', label: 'Orange', color: '#FF8B00' },
-  { value: 'yellow', label: 'Yellow', color: '#FFC400' },
-  { value: 'green', label: 'Green', color: '#36B37E' },
-  { value: 'forest', label: 'Forest', color: '#00875A' },
-  { value: 'slate', label: 'Slate', color: '#253858' },
-  { value: 'silver', label: 'Silver', color: '#666666' },
+const colors = [
+  '#E3E2E0',
+  '#F1F0F0',
+  '#ECE0DB',
+  '#F5DFCC',
+  '#F5E5C0',
+  '#DEECDC',
+  '#D6E4EE',
+  '#E6DEED',
+  '#F1E1E9',
+  '#FAE3DE',
 ]
 
-const colourStyles = {
-  control: (styles, state) => ({
-    ...styles,
-    backgroundColor: 'white',
-    width: '200px',
-    boxShadow: 'none',
-    borderColor: state.isFocused ? '#ccc' : styles.borderColor,
+const getRandomColor = () => {
+  const randomIndex = Math.floor(Math.random() * colors.length)
+  return colors[randomIndex]
+}
+
+const customStyles = {
+  control: (provided, state) => ({
+    ...provided,
+    boxShadow: state.isFocused ? 'none' : provided.boxShadow,
+    borderColor: state.isFocused ? '#ccc' : provided.borderColor,
     '&:hover': {
-      borderColor: '#ccc',
+      borderColor: state.isFocused ? '#ccc' : provided.borderColor,
     },
     cursor: 'pointer',
-    fontSize: '14px',
+    fontSize: '15px',
   }),
-  option: (styles, { data, isDisabled, isFocused, isSelected }) => {
-    const color = chroma(data.color)
-    return {
-      ...styles,
-      backgroundColor: isDisabled
-        ? undefined
-        : isSelected
-          ? data.color
-          : isFocused
-            ? color.alpha(0.1).css()
-            : undefined,
-      color: isDisabled
-        ? '#ccc'
-        : isSelected
-          ? chroma.contrast(color, 'white') > 2
-            ? 'white'
-            : 'black'
-          : data.color,
-      cursor: isDisabled ? 'not-allowed' : 'pointer',
-
-      ':active': {
-        ...styles[':active'],
-        backgroundColor: !isDisabled
-          ? isSelected
-            ? data.color
-            : color.alpha(0.3).css()
-          : undefined,
-      },
-    }
-  },
-  multiValue: (styles, { data }) => {
-    const color = chroma(data.color)
-    return {
-      ...styles,
-      backgroundColor: color.alpha(0.1).css(),
-    }
-  },
-  multiValueLabel: (styles, { data }) => ({
-    ...styles,
-    color: data.color,
-    fontSize: '14px',
-  }),
-  multiValueRemove: (styles, { data }) => ({
-    ...styles,
-    color: data.color,
-    ':hover': {
-      backgroundColor: data.color,
-      color: 'white',
+  option: (provided, state) => ({
+    ...provided,
+    backgroundColor: state.isFocused ? '#2F3234' : provided.backgroundColor,
+    color: state.isFocused ? '#FFFFFF' : provided.color,
+    '&:active': {
+      backgroundColor: '#2F3234',
     },
+    cursor: 'pointer',
   }),
-  dropdownIndicator: (styles) => ({
-    ...styles,
-    display: 'none',
+  multiValue: (provided, state) => ({
+    ...provided,
+    backgroundColor: state.data.color,
+    color: '#fff',
   }),
-  indicatorSeparator: (styles) => ({
-    display: 'none',
-  }),
-  clearIndicator: (styles) => ({
-    display: 'none',
+  multiValueRemove: (provided, state) => ({
+    ...provided,
+    ':hover': {
+      backgroundColor: state.data.color,
+    },
   }),
 }
 
-const TagDropdown = ({ selectedOptions, handleTagChange }) => {
+const LOCAL_STORAGE_KEY = 'tags'
+
+const TagDropdown = ({ tags, setTags, selectedTags, setSelectedTags }) => {
+  useEffect(() => {
+    const storedTags = getLocalStorage(LOCAL_STORAGE_KEY)
+    if (storedTags && Array.isArray(storedTags)) {
+      setTags(storedTags)
+    }
+  }, [setTags])
+
+  useEffect(() => {
+    if (tags.length > 0) {
+      setLocalStorage(LOCAL_STORAGE_KEY, tags)
+    }
+  }, [tags])
+
+  const handleCreateTag = (inputValue) => {
+    const newTag = {
+      value: inputValue,
+      label: inputValue,
+      color: getRandomColor(),
+    }
+    const updatedTags = [...tags, newTag]
+    setTags(updatedTags)
+    setSelectedTags([...selectedTags, newTag])
+  }
+
   return (
-    <Select
-      value={selectedOptions}
-      onChange={handleTagChange}
+    <CreatableSelect
       isMulti
-      options={colourOptions}
-      menuPlacement='auto'
-      styles={colourStyles}
-      placeholder='Tag'
+      value={selectedTags}
+      onChange={setSelectedTags}
+      options={tags}
+      onCreateOption={handleCreateTag}
+      placeholder='Create or Select Tags Here!'
+      styles={customStyles}
     />
   )
 }

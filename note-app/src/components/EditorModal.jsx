@@ -1,30 +1,34 @@
-import TagDropdown from './TagDropdown'
 import ToastEditor from './ToastEditor'
+import TagDropdown from './TagDropdown'
 
 const EditorModal = ({
   title,
   body,
-  selectedOptions,
+  tags,
+  setTags,
+  selectedTags,
+  setSelectedTags,
   handleTitleChange,
   handleBody,
   handleSaveNote,
   handleCancelNote,
-  handleTagChange,
 }) => {
   return (
     <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50'>
       <div className='w-[70%] rounded-lg bg-white p-6'>
-        <header className='mb-4 flex gap-4'>
+        <header className='mb-4 flex flex-col gap-4'>
           <input
-            className='w-full rounded-[3px] border border-[#ccc] px-2 py-1 text-sm focus:outline-none'
+            className='w-full rounded-[3px] border border-[#ccc] p-2 text-sm focus:outline-none'
             type='text'
             placeholder='Title'
             value={title}
             onChange={handleTitleChange}
           />
           <TagDropdown
-            selectedOptions={selectedOptions}
-            handleTagChange={handleTagChange}
+            tags={tags}
+            setTags={setTags}
+            selectedTags={selectedTags}
+            setSelectedTags={setSelectedTags}
           />
         </header>
         <ToastEditor body={body} handleBody={handleBody} />

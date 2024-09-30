@@ -14,10 +14,11 @@ const Note = ({ note, onEdit, onDelete }) => {
         <Viewer key={content} initialValue={content} />
       </article>
       <div className='mb-2 flex gap-2'>
-        {tags.map((tag) => (
+        {tags?.map((tag) => (
           <p
             key={tag.id}
-            className='bg-main-darkGray rounded-[80px] px-3 py-1 text-sm text-white'>
+            className='rounded-[80px] px-3 py-1 text-sm'
+            style={{ backgroundColor: tag.color }}>
             {tag.label}
           </p>
         ))}

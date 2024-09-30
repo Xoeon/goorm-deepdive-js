@@ -8,12 +8,12 @@ import { useEffect } from 'react'
 import getLocalStorage from '../utils/getLocalStorage'
 import setLocalStorage from '../utils/setLocalStorage'
 
-const NoteContainer = () => {
+const NoteContainer = ({ tags, setTags }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [title, setTitle] = useState('')
   const [body, setBody] = useState('')
   const [notes, setNotes] = useState([])
-  const [selectedOptions, setSelectedOptions] = useState([])
+  const [selectedTags, setSelectedTags] = useState([])
   const [editingNote, setEditingNote] = useState(null)
 
   useEffect(() => {
@@ -28,7 +28,6 @@ const NoteContainer = () => {
   }
 
   const handleBody = (html) => {
-    console.log('Updated body:', html)
     setBody(html)
   }
 
@@ -40,7 +39,7 @@ const NoteContainer = () => {
             ? {
                 ...note,
                 title,
-                tags: selectedOptions,
+                tags: selectedTags,
                 content: body,
                 date: dateFormatter(Date.now()),
               }
@@ -52,7 +51,7 @@ const NoteContainer = () => {
         const newNote = {
           id: uuidv4(),
           title: title,
-          tags: selectedOptions,
+          tags: selectedTags,
           content: body,
           date: dateFormatter(Date.now()),
         }
@@ -62,7 +61,7 @@ const NoteContainer = () => {
       }
 
       setTitle('')
-      setSelectedOptions([])
+      setSelectedTags([])
       setBody('')
       setIsModalOpen(false)
       setEditingNote(null)
@@ -71,24 +70,16 @@ const NoteContainer = () => {
 
   const handleCancelNote = () => {
     setTitle('')
-    setSelectedOptions([])
+    setSelectedTags([])
     setBody('')
     setIsModalOpen(false)
     setEditingNote(null)
   }
 
-  const handleTagChange = (options) => {
-    if (options.length <= 2) {
-      setSelectedOptions(options)
-    } else {
-      toast.error('태그는 최대 2개까지 생성 가능합니다.')
-    }
-  }
-
   const handleEditNote = (note) => {
     setEditingNote(note)
     setTitle(note.title)
-    setSelectedOptions(note.tags)
+    setSelectedTags(note.tags)
     setBody(note.content)
     setIsModalOpen(true)
   }
@@ -132,12 +123,14 @@ const NoteContainer = () => {
           <EditorModal
             title={title}
             body={body}
-            selectedOptions={selectedOptions}
+            tags={tags}
+            setTags={setTags}
+            selectedTags={selectedTags}
+            setSelectedTags={setSelectedTags}
             handleTitleChange={handleTitleChange}
             handleBody={handleBody}
             handleSaveNote={handleSaveNote}
             handleCancelNote={handleCancelNote}
-            handleTagChange={handleTagChange}
           />
         )}
       </div>

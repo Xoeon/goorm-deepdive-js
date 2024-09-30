@@ -8,7 +8,7 @@ const ToastEditor = ({ body, handleBody }) => {
 
   useEffect(() => {
     if (body && editorRef.current) {
-      editorRef.current.getInstance().setHTML(body) // body 값으로 에디터 초기화
+      editorRef.current.getInstance().setHTML(body)
     }
   }, [body])
 
