@@ -1,6 +1,6 @@
-import './App.css'
 import NoteContainer from './components/NoteContainer'
 import SideBar from './components/SideBar'
+import './App.css'
 
 function App() {
   return (
