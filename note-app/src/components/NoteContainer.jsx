@@ -4,6 +4,9 @@ import { v4 as uuidv4 } from 'uuid'
 import Note from './Note'
 import dateFormatter from '../utils/dateFormatter'
 import toast, { Toaster } from 'react-hot-toast'
+import { useEffect } from 'react'
+import getLocalStorage from '../utils/getLocalStorage'
+import setLocalStorage from '../utils/setLocalStorage'
 
 const NoteContainer = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -11,6 +14,13 @@ const NoteContainer = () => {
   const [body, setBody] = useState('')
   const [notes, setNotes] = useState([])
   const [selectedOptions, setSelectedOptions] = useState([])
+
+  useEffect(() => {
+    const savedNotes = getLocalStorage('notes')
+    if (savedNotes) {
+      setNotes(JSON.parse(savedNotes))
+    }
+  }, [])
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value)
@@ -22,16 +32,17 @@ const NoteContainer = () => {
 
   const handleSaveNote = () => {
     if (body.trim()) {
-      setNotes([
-        ...notes,
-        {
-          id: uuidv4(),
-          title: title,
-          tags: selectedOptions,
-          content: body,
-          date: dateFormatter(Date.now()),
-        },
-      ])
+      const newNote = {
+        id: uuidv4(),
+        title: title,
+        tags: selectedOptions,
+        content: body,
+        date: dateFormatter(Date.now()),
+      }
+      const updatedNotes = [...notes, newNote]
+
+      setNotes(updatedNotes)
+      setLocalStorage('notes', updatedNotes)
       setTitle('')
       setSelectedOptions([])
       setBody('')
