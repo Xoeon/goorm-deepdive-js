@@ -8,7 +8,7 @@ const Note = ({ note }) => {
   return (
     <div className='bg-main-lightGray flex h-[300px] min-w-[300px] flex-col rounded-[5px] p-5 shadow-md'>
       <header className='flex justify-between'>
-        <h1>{title}</h1>
+        <h1 className='text-lg font-semibold'>{title}</h1>
       </header>
       <article className='h-full'>
         <Viewer initialValue={content} />
@@ -22,7 +22,14 @@ const Note = ({ note }) => {
       </div>
       <section className='flex items-center justify-between'>
         <p className='text-sm'>{date}</p>
-        <div>icons</div>
+        <div className='flex gap-1'>
+          <button>
+            <img className='w-6' src='/icons/edit.svg' />
+          </button>
+          <button>
+            <img className='w-6' src='icons/trash.svg' />
+          </button>
+        </div>
       </section>
     </div>
   )

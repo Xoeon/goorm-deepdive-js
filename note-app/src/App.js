@@ -4,11 +4,11 @@ import './App.css'
 
 function App() {
   return (
-    <div className='flex h-screen w-full'>
+    <div className='flex min-h-screen w-full'>
       <aside className='flex-shrink-0'>
         <SideBar />
       </aside>
-      <main className='w-full'>
+      <main className='h-full w-full'>
         <NoteContainer />
       </main>
     </div>
