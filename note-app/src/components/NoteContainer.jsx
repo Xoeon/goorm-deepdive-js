@@ -14,6 +14,7 @@ const NoteContainer = () => {
   const [body, setBody] = useState('')
   const [notes, setNotes] = useState([])
   const [selectedOptions, setSelectedOptions] = useState([])
+  const [editingNote, setEditingNote] = useState(null)
 
   useEffect(() => {
     const savedNotes = getLocalStorage('notes')
@@ -27,26 +28,44 @@ const NoteContainer = () => {
   }
 
   const handleBody = (html) => {
+    console.log('Updated body:', html)
     setBody(html)
   }
 
   const handleSaveNote = () => {
     if (body.trim()) {
-      const newNote = {
-        id: uuidv4(),
-        title: title,
-        tags: selectedOptions,
-        content: body,
-        date: dateFormatter(Date.now()),
+      if (editingNote) {
+        const updatedNotes = notes.map((note) =>
+          note.id === editingNote.id
+            ? {
+                ...note,
+                title,
+                tags: selectedOptions,
+                content: body,
+                date: dateFormatter(Date.now()),
+              }
+            : note
+        )
+        setNotes(updatedNotes)
+        setLocalStorage('notes', updatedNotes)
+      } else {
+        const newNote = {
+          id: uuidv4(),
+          title: title,
+          tags: selectedOptions,
+          content: body,
+          date: dateFormatter(Date.now()),
+        }
+        const updatedNotes = [...notes, newNote]
+        setNotes(updatedNotes)
+        setLocalStorage('notes', updatedNotes)
       }
-      const updatedNotes = [...notes, newNote]
 
-      setNotes(updatedNotes)
-      setLocalStorage('notes', updatedNotes)
       setTitle('')
       setSelectedOptions([])
       setBody('')
       setIsModalOpen(false)
+      setEditingNote(null)
     }
   }
 
@@ -55,6 +74,7 @@ const NoteContainer = () => {
     setSelectedOptions([])
     setBody('')
     setIsModalOpen(false)
+    setEditingNote(null)
   }
 
   const handleTagChange = (options) => {
@@ -63,6 +83,21 @@ const NoteContainer = () => {
     } else {
       toast.error('태그는 최대 2개까지 생성 가능합니다.')
     }
+  }
+
+  const handleEditNote = (note) => {
+    setEditingNote(note)
+    setTitle(note.title)
+    setSelectedOptions(note.tags)
+    setBody(note.content)
+    setIsModalOpen(true)
+  }
+
+  const handleDeleteNote = (id) => {
+    const updatedNotes = notes.filter((note) => note.id !== id)
+    setNotes(updatedNotes)
+    setLocalStorage('notes', updatedNotes)
+    toast.success('노트가 삭제되었습니다.')
   }
 
   return (
@@ -80,7 +115,12 @@ const NoteContainer = () => {
         {notes.length > 0 ? (
           <article className='flex flex-wrap gap-5'>
             {notes.map((note) => (
-              <Note key={note.id} note={note} />
+              <Note
+                key={note.id}
+                note={note}
+                onEdit={() => handleEditNote(note)}
+                onDelete={() => handleDeleteNote(note.id)}
+              />
             ))}
           </article>
         ) : (
@@ -91,6 +131,7 @@ const NoteContainer = () => {
         {isModalOpen && (
           <EditorModal
             title={title}
+            body={body}
             selectedOptions={selectedOptions}
             handleTitleChange={handleTitleChange}
             handleBody={handleBody}

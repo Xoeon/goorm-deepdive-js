@@ -3,6 +3,7 @@ import ToastEditor from './ToastEditor'
 
 const EditorModal = ({
   title,
+  body,
   selectedOptions,
   handleTitleChange,
   handleBody,
@@ -26,7 +27,7 @@ const EditorModal = ({
             handleTagChange={handleTagChange}
           />
         </header>
-        <ToastEditor handleBody={handleBody} />
+        <ToastEditor body={body} handleBody={handleBody} />
         <div className='mt-4 flex gap-3'>
           <button
             className='bg-main-darkGray rounded px-4 py-2 text-white'

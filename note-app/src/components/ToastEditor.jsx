@@ -1,9 +1,16 @@
 import React, { useRef } from 'react'
 import { Editor } from '@toast-ui/react-editor'
 import '@toast-ui/editor/dist/toastui-editor.css'
+import { useEffect } from 'react'
 
-const ToastEditor = ({ handleBody }) => {
+const ToastEditor = ({ body, handleBody }) => {
   const editorRef = useRef()
+
+  useEffect(() => {
+    if (body && editorRef.current) {
+      editorRef.current.getInstance().setHTML(body) // body 값으로 에디터 초기화
+    }
+  }, [body])
 
   const onChangeGetHTML = () => {
     const data = editorRef.current.getInstance().getHTML()
@@ -24,7 +31,7 @@ const ToastEditor = ({ handleBody }) => {
       previewStyle='vertical'
       ref={editorRef}
       onChange={onChangeGetHTML}
-      initialValue='Please enter text here!😜'
+      initialValue={body}
       hideModeSwitch='true'
       useCommandShortcut={false}
       usageStatistics={false}></Editor>
