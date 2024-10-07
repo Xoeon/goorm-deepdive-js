@@ -28,7 +28,9 @@ const SideBar = ({ tags }) => {
         })}
         {tags?.map((tag) => {
           return (
-            <li key={tag.id} className='flex items-center justify-start gap-1'>
+            <li
+              key={tag.id}
+              className='flex cursor-pointer items-center justify-start gap-1'>
               <img className='w-5' src='/icons/clip.svg' alt='clip' />
               <p className='text-[15px] text-white'>{tag.label}</p>
             </li>
