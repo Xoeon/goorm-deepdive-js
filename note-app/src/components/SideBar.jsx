@@ -3,8 +3,7 @@ const categories = [
   { id: 2, title: 'Untagged', value: 'untagged', icon: '/icons/archive.svg' },
 ]
 
-const SideBar = ({ tags }) => {
-  console.log(tags)
+const SideBar = ({ tags, selectedCategory }) => {
   return (
     <nav className='bg-main-darkGray h-full justify-start px-5 py-3 text-white'>
       <header className='mb-3 flex items-center justify-between'>
@@ -22,7 +21,10 @@ const SideBar = ({ tags }) => {
               key={category.id}
               className='flex items-center justify-start gap-1'>
               <img className='w-5' src={category.icon} alt={category.title} />
-              <p className='text-[15px] text-white'>{category.title}</p>
+              <p
+                className={`text-[15px] text-white ${selectedCategory === category.value && 'font-semibold'}`}>
+                {category.title}
+              </p>
             </li>
           )
         })}
