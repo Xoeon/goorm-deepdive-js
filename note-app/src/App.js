@@ -18,10 +18,17 @@ function App() {
     localStorage.setItem('tags', JSON.stringify(tags))
   }, [tags])
 
+  const handleCategory = (category) => {
+    setSelectedCategory(category)
+  }
   return (
     <div className='flex min-h-screen w-full'>
       <aside className='w-[200px] flex-shrink-0'>
-        <SideBar tags={tags} selectedCategory={selectedCategory} />
+        <SideBar
+          tags={tags}
+          selectedCategory={selectedCategory}
+          handleCategory={handleCategory}
+        />
       </aside>
       <main className='h-full flex-grow'>
         <NoteContainer tags={tags} setTags={setTags} />

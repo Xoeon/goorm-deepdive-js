@@ -3,9 +3,9 @@ const categories = [
   { id: 2, title: 'Untagged', value: 'untagged', icon: '/icons/archive.svg' },
 ]
 
-const SideBar = ({ tags, selectedCategory }) => {
+const SideBar = ({ tags, selectedCategory, handleCategory }) => {
   return (
-    <nav className='bg-main-darkGray h-full justify-start px-5 py-3 text-white'>
+    <nav className='h-full justify-start bg-main-darkGray px-5 py-3 text-white'>
       <header className='mb-3 flex items-center justify-between'>
         <h1 className='text-lg font-semibold text-white'>Category</h1>
         <button
@@ -19,7 +19,8 @@ const SideBar = ({ tags, selectedCategory }) => {
           return (
             <li
               key={category.id}
-              className='flex items-center justify-start gap-1'>
+              className='flex cursor-pointer items-center justify-start gap-1'
+              onClick={() => handleCategory(category.value)}>
               <img className='w-5' src={category.icon} alt={category.title} />
               <p
                 className={`text-[15px] text-white ${selectedCategory === category.value && 'font-semibold'}`}>
@@ -32,9 +33,13 @@ const SideBar = ({ tags, selectedCategory }) => {
           return (
             <li
               key={tag.id}
-              className='flex cursor-pointer items-center justify-start gap-1'>
+              className='flex cursor-pointer items-center justify-start gap-1'
+              onClick={() => handleCategory(tag.value)}>
               <img className='w-5' src='/icons/clip.svg' alt='clip' />
-              <p className='text-[15px] text-white'>{tag.label}</p>
+              <p
+                className={`text-[15px] text-white ${selectedCategory === tag.value && 'font-semibold'}`}>
+                {tag.label}
+              </p>
             </li>
           )
         })}
