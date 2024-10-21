@@ -6,6 +6,20 @@ const categories = [
   { id: 2, title: 'Untagged', value: 'untagged', icon: '/icons/archive.svg' },
 ];
 
+const getIcon = (category, selectedCategory) => {
+  if (category.value === 'all') {
+    return selectedCategory === 'all'
+      ? '/icons/note_bold.svg'
+      : '/icons/note.svg';
+  }
+  if (category.value === 'untagged') {
+    return selectedCategory === 'untagged'
+      ? '/icons/archive_bold.svg'
+      : '/icons/archive.svg';
+  }
+  return category.icon;
+};
+
 const SideBar = ({
   notes,
   setNotes,
@@ -39,7 +53,11 @@ const SideBar = ({
               className="flex cursor-pointer items-center justify-start gap-1"
               onClick={() => handleCategory(category.value)}
             >
-              <img className="w-5" src={category.icon} alt={category.title} />
+              <img
+                className="w-5"
+                src={getIcon(category, selectedCategory)}
+                alt={category.title}
+              />
               <p
                 className={`text-[15px] text-white ${
                   selectedCategory === category.value && 'font-semibold'
@@ -57,7 +75,15 @@ const SideBar = ({
               className="flex cursor-pointer items-center justify-start gap-1"
               onClick={() => handleCategory(tag.value)}
             >
-              <img className="w-5" src="/icons/clip.svg" alt="clip" />
+              <img
+                className="w-5"
+                src={
+                  selectedCategory === tag.value
+                    ? '/icons/clip_bold.svg'
+                    : '/icons/clip.svg'
+                }
+                alt="clip"
+              />
               <p
                 className={`text-[15px] text-white ${
                   selectedCategory === tag.value && 'font-semibold'
