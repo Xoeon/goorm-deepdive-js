@@ -1,21 +1,35 @@
-import React, { useRef } from 'react'
-import { Editor } from '@toast-ui/react-editor'
-import '@toast-ui/editor/dist/toastui-editor.css'
-import { useEffect } from 'react'
+import React, { useRef } from 'react';
+import { Editor } from '@toast-ui/react-editor';
+import '@toast-ui/editor/dist/toastui-editor.css';
+import { useEffect } from 'react';
+
+const debounce = (func, delay) => {
+  let timer;
+  return (...args) => {
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => {
+      func(...args);
+    }, delay);
+  };
+};
 
 const ToastEditor = ({ body, handleBody }) => {
-  const editorRef = useRef()
+  const editorRef = useRef();
 
   useEffect(() => {
-    if (body && editorRef.current) {
-      editorRef.current.getInstance().setHTML(body)
+    if (
+      body &&
+      editorRef.current &&
+      editorRef.current.getInstance().getHTML() !== body
+    ) {
+      editorRef.current.getInstance().setHTML(body);
     }
-  }, [body])
+  }, [body]);
 
-  const onChangeGetHTML = () => {
-    const data = editorRef.current.getInstance().getHTML()
-    handleBody(data)
-  }
+  const onChangeGetHTML = debounce(() => {
+    const data = editorRef.current.getInstance().getHTML();
+    handleBody(data);
+  }, 300);
 
   return (
     <Editor
@@ -26,16 +40,17 @@ const ToastEditor = ({ body, handleBody }) => {
         ['table', 'image', 'link'],
         ['code', 'codeblock'],
       ]}
-      height='500px'
-      initialEditType='markdown'
-      previewStyle='vertical'
+      height="500px"
+      initialEditType="markdown"
+      previewStyle="vertical"
       ref={editorRef}
       onChange={onChangeGetHTML}
       initialValue={body}
-      hideModeSwitch='true'
+      hideModeSwitch="true"
       useCommandShortcut={false}
-      usageStatistics={false}></Editor>
-  )
-}
+      usageStatistics={false}
+    />
+  );
+};
 
-export default ToastEditor
+export default ToastEditor;
