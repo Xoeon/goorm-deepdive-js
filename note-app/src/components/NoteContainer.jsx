@@ -47,40 +47,44 @@ const NoteContainer = ({ tags, setTags, selectedCategory }) => {
   };
 
   const handleSaveNote = () => {
-    if (body.trim()) {
-      if (editingNote) {
-        const updatedNotes = notes.map((note) =>
-          note.id === editingNote.id
-            ? {
-                ...note,
-                title,
-                tags: selectedTags,
-                content: body,
-                date: dateFormatter(Date.now()),
-              }
-            : note
-        );
-        setNotes(updatedNotes);
-        setLocalStorage('notes', updatedNotes);
-      } else {
-        const newNote = {
-          id: uuidv4(),
-          title: title,
-          tags: selectedTags,
-          content: body,
-          date: dateFormatter(Date.now()),
-        };
-        const updatedNotes = [...notes, newNote];
-        setNotes(updatedNotes);
-        setLocalStorage('notes', updatedNotes);
-      }
-
-      setTitle('');
-      setSelectedTags([]);
-      setBody('');
-      setIsModalOpen(false);
-      setEditingNote(null);
+    if (!title.trim() || !body.trim()) {
+      toast.error('Title and content cannot be empty!');
+      return;
     }
+
+    if (editingNote) {
+      const updatedNotes = notes.map((note) =>
+        note.id === editingNote.id
+          ? {
+              ...note,
+              title,
+              tags: selectedTags,
+              content: body,
+              date: dateFormatter(Date.now()),
+            }
+          : note
+      );
+      setNotes(updatedNotes);
+      setLocalStorage('notes', updatedNotes);
+    } else {
+      const newNote = {
+        id: uuidv4(),
+        title: title,
+        tags: selectedTags,
+        content: body,
+        date: dateFormatter(Date.now()),
+      };
+      const updatedNotes = [...notes, newNote];
+      setNotes(updatedNotes);
+      setLocalStorage('notes', updatedNotes);
+    }
+
+    // Reset after saving
+    setTitle('');
+    setSelectedTags([]);
+    setBody('');
+    setIsModalOpen(false);
+    setEditingNote(null);
   };
 
   const handleCancelNote = () => {

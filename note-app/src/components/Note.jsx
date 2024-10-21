@@ -17,7 +17,7 @@ const Note = ({ note, onEdit, onDelete }) => {
         {tags?.map((tag) => (
           <p
             key={tag.id}
-            className="rounded-[2px] px-3 py-1 text-sm"
+            className="rounded-[2px] px-2 py-1 text-sm"
             style={{ backgroundColor: tag.color }}
           >
             {tag.label}
