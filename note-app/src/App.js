@@ -4,6 +4,8 @@ import './App.css';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import getLocalStorage from './utils/getLocalStorage';
+import TagModal from './components/TagModal';
+import TagDropdown from './components/TagDropdown';
 
 function App() {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -28,6 +30,7 @@ function App() {
       <aside className="w-[200px] flex-shrink-0">
         <SideBar
           tags={tags}
+          setTags={setTags}
           selectedCategory={selectedCategory}
           handleCategory={handleCategory}
         />

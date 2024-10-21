@@ -1,7 +1,8 @@
-import { useEffect } from 'react'
-import CreatableSelect from 'react-select/creatable'
-import getLocalStorage from '../utils/getLocalStorage'
-import setLocalStorage from '../utils/setLocalStorage'
+import { useEffect } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+import CreatableSelect from 'react-select/creatable';
+import getLocalStorage from '../utils/getLocalStorage';
+import setLocalStorage from '../utils/setLocalStorage';
 
 const colors = [
   '#E3E2E0',
@@ -14,12 +15,12 @@ const colors = [
   '#E6DEED',
   '#F1E1E9',
   '#FAE3DE',
-]
+];
 
 const getRandomColor = () => {
-  const randomIndex = Math.floor(Math.random() * colors.length)
-  return colors[randomIndex]
-}
+  const randomIndex = Math.floor(Math.random() * colors.length);
+  return colors[randomIndex];
+};
 
 const customStyles = {
   control: (provided, state) => ({
@@ -52,34 +53,35 @@ const customStyles = {
       backgroundColor: state.data.color,
     },
   }),
-}
+};
 
-const LOCAL_STORAGE_KEY = 'tags'
+const LOCAL_STORAGE_KEY = 'tags';
 
 const TagDropdown = ({ tags, setTags, selectedTags, setSelectedTags }) => {
   useEffect(() => {
-    const storedTags = getLocalStorage(LOCAL_STORAGE_KEY)
+    const storedTags = getLocalStorage(LOCAL_STORAGE_KEY);
     if (storedTags && Array.isArray(storedTags)) {
-      setTags(storedTags)
+      setTags(storedTags);
     }
-  }, [setTags])
+  }, [setTags]);
 
   useEffect(() => {
     if (tags.length > 0) {
-      setLocalStorage(LOCAL_STORAGE_KEY, tags)
+      setLocalStorage(LOCAL_STORAGE_KEY, tags);
     }
-  }, [tags])
+  }, [tags]);
 
   const handleCreateTag = (inputValue) => {
     const newTag = {
+      id: uuidv4(),
       value: inputValue,
       label: inputValue,
       color: getRandomColor(),
-    }
-    const updatedTags = [...tags, newTag]
-    setTags(updatedTags)
-    setSelectedTags([...selectedTags, newTag])
-  }
+    };
+    const updatedTags = [...tags, newTag];
+    setTags(updatedTags);
+    setSelectedTags([...selectedTags, newTag]);
+  };
 
   return (
     <CreatableSelect
@@ -88,10 +90,10 @@ const TagDropdown = ({ tags, setTags, selectedTags, setSelectedTags }) => {
       onChange={setSelectedTags}
       options={tags}
       onCreateOption={handleCreateTag}
-      placeholder='Create or Select Tags Here!'
+      placeholder="Create or Select Tags Here!"
       styles={customStyles}
     />
-  )
-}
+  );
+};
 
-export default TagDropdown
+export default TagDropdown;
