@@ -43,7 +43,7 @@ const getDarkerColor = (color, percent) => {
 const LOCAL_STORAGE_KEY = 'tags';
 const RESERVED_TAGS = ['all', 'untagged'];
 
-const TagDropdown = ({ tags, setTags, handleModalOpen }) => {
+const TagModal = ({ notes, setNotes, tags, setTags, handleModalOpen }) => {
   const [isComposing, setIsComposing] = useState(false);
 
   useEffect(() => {
@@ -89,6 +89,14 @@ const TagDropdown = ({ tags, setTags, handleModalOpen }) => {
   const handleDeleteTag = (tagToDelete) => {
     const updatedTags = tags.filter((tag) => tag.id !== tagToDelete.id);
     setTags(updatedTags);
+
+    const updatedNotes = notes.map((note) => ({
+      ...note,
+      tags: note.tags.filter((tag) => tag.id !== tagToDelete.id), // 해당 태그 제거
+    }));
+
+    setNotes(updatedNotes);
+    setLocalStorage('notes', updatedNotes);
   };
 
   return (
@@ -141,4 +149,4 @@ const TagDropdown = ({ tags, setTags, handleModalOpen }) => {
   );
 };
 
-export default TagDropdown;
+export default TagModal;

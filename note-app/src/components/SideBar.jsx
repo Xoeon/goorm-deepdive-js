@@ -6,7 +6,14 @@ const categories = [
   { id: 2, title: 'Untagged', value: 'untagged', icon: '/icons/archive.svg' },
 ];
 
-const SideBar = ({ tags, setTags, selectedCategory, handleCategory }) => {
+const SideBar = ({
+  notes,
+  setNotes,
+  tags,
+  setTags,
+  selectedCategory,
+  handleCategory,
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleModalOpen = () => {
@@ -64,6 +71,8 @@ const SideBar = ({ tags, setTags, selectedCategory, handleCategory }) => {
       </ul>
       {isModalOpen && (
         <TagModal
+          notes={notes}
+          setNotes={setNotes}
           tags={tags}
           setTags={setTags}
           handleModalOpen={handleModalOpen}

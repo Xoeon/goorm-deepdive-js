@@ -4,40 +4,14 @@ import { v4 as uuidv4 } from 'uuid';
 import Note from './Note';
 import dateFormatter from '../utils/dateFormatter';
 import toast, { Toaster } from 'react-hot-toast';
-import { useEffect } from 'react';
-import getLocalStorage from '../utils/getLocalStorage';
 import setLocalStorage from '../utils/setLocalStorage';
 
-const NoteContainer = ({ tags, setTags, selectedCategory }) => {
+const NoteContainer = ({ notes, setNotes, filteredNotes, tags, setTags }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
-  const [notes, setNotes] = useState([]);
-  const [filteredNotes, setFilteredNotes] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
   const [editingNote, setEditingNote] = useState(null);
-
-  useEffect(() => {
-    const savedNotes = getLocalStorage('notes');
-    if (savedNotes) {
-      setNotes(JSON.parse(savedNotes));
-    }
-  }, []);
-
-  useEffect(() => {
-    if (selectedCategory === 'all') {
-      setFilteredNotes(notes);
-    } else if (selectedCategory === 'untagged') {
-      setFilteredNotes(notes.filter((note) => note.tags.length === 0));
-    } else {
-      setFilteredNotes(
-        notes.filter((note) =>
-          note.tags.some((tag) => tag.value === selectedCategory)
-        )
-      );
-    }
-  }, [selectedCategory, notes]);
-
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
   };
