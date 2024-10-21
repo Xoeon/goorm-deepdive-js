@@ -6,12 +6,24 @@ const Note = ({ note, onEdit, onDelete }) => {
   const { title, tags, content, date } = note;
 
   return (
-    <div className="bg-main-lightGray flex h-[300px] min-w-[300px] flex-col rounded-[5px] p-5 shadow-md">
+    <div className="bg-main-lightGray flex h-[300px] w-[300px] flex-col rounded-[5px] p-5 shadow-md">
       <header className="flex justify-between">
         <h1 className="text-lg font-semibold">{title}</h1>
       </header>
-      <article className="h-full">
-        <Viewer key={content} initialValue={content} />
+      <article className="h-full overflow-hidden">
+        <div
+          className="line-clamp"
+          style={{
+            display: '-webkit-box',
+            WebkitLineClamp: 7,
+            WebkitBoxOrient: 'vertical',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'normal',
+          }}
+        >
+          <Viewer key={content} initialValue={content} />
+        </div>
       </article>
       <div className="mb-2 flex gap-2">
         {tags?.map((tag) => (
