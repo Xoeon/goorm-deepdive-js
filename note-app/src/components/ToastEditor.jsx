@@ -20,15 +20,18 @@ const ToastEditor = ({ body, handleBody }) => {
     if (
       body &&
       editorRef.current &&
-      editorRef.current.getInstance().getHTML() !== body
+      editorRef.current.getInstance().getMarkdown() !== body
     ) {
-      editorRef.current.getInstance().setHTML(body);
+      editorRef.current.getInstance().setMarkdown(body);
     }
   }, [body]);
 
-  const onChangeGetHTML = debounce(() => {
-    const data = editorRef.current.getInstance().getHTML();
-    handleBody(data);
+  const onChangeGetMarkdown = debounce(() => {
+    const currentMarkdown = editorRef.current.getInstance().getMarkdown();
+
+    if (currentMarkdown !== body) {
+      handleBody(currentMarkdown);
+    }
   }, 300);
 
   return (
@@ -44,7 +47,7 @@ const ToastEditor = ({ body, handleBody }) => {
       initialEditType="markdown"
       previewStyle="vertical"
       ref={editorRef}
-      onChange={onChangeGetHTML}
+      onChange={onChangeGetMarkdown}
       initialValue={body}
       hideModeSwitch="true"
       useCommandShortcut={false}
