@@ -92,11 +92,12 @@ const TagModal = ({ notes, setNotes, tags, setTags, handleModalOpen }) => {
 
     const updatedNotes = notes.map((note) => ({
       ...note,
-      tags: note.tags.filter((tag) => tag.id !== tagToDelete.id), // 해당 태그 제거
+      tags: note.tags.filter((tag) => tag.id !== tagToDelete.id),
     }));
 
     setNotes(updatedNotes);
     setLocalStorage('notes', updatedNotes);
+    toast.success('Tag deleted.');
   };
 
   return (
@@ -133,7 +134,7 @@ const TagModal = ({ notes, setNotes, tags, setTags, handleModalOpen }) => {
               className="flex items-center space-x-2 rounded-[2px] px-2 py-1 text-white"
               style={{ backgroundColor: tag.color }}
             >
-              <span className="text-sm">{tag.label}</span>
+              <span className="text-xs">{tag.label}</span>
               <button
                 className="text-white text-xs bg-transparent border-0 focus:outline-none"
                 style={{ color: getDarkerColor(tag.color, 20) }}

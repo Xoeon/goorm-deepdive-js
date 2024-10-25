@@ -81,7 +81,7 @@ const NoteContainer = ({ notes, setNotes, filteredNotes, tags, setTags }) => {
     const updatedNotes = notes.filter((note) => note.id !== id);
     setNotes(updatedNotes);
     setLocalStorage('notes', updatedNotes);
-    toast.success('노트가 삭제되었습니다.');
+    toast.success('Note deleted.');
   };
 
   return (
